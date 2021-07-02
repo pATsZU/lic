@@ -113,7 +113,7 @@ print(model1$mse[n])
 
 ###############
 #import i obróbka
-data <- read.csv("C:/Users/patsz/OneDrive/Pulpit/praca dyplomowa/ERKa/p2.csv")
+data <- read.csv("C:/Users/sciezka/p2.csv")
 names <- c("time","Mezczyzna", "wiek", "wojewodztwo", "w_miejscowosc", "drugi_kierunek", "publiczna", "dziedzina_studiow",
            "zaoczne", "nie_pracuje", "forma_ksiazki", "pochodzenie_ksiazki", "dzial_ksiazki", "powod", "czym_wybor", "kiedy","nowosci_nie","netflix_nie","lubie_czytac","pandemia_wiecej_ksiazek","wiecej_czasu","za_malo_czytam","zrodlo_wiedzy","dobry_prezent","y", "komentarze","dziesiatki","przedzialy_5")
 names(data) <- names
@@ -205,7 +205,7 @@ print(model2$mse[n])
 
 ###############
 #import i obróbka
-data <- read.csv("C:/Users/patsz/OneDrive/Pulpit/praca dyplomowa/ERKa/p2.csv")
+data <- read.csv("C:/Users/sciezka/p2.csv")
 names <- c("time","Mezczyzna", "wiek", "wojewodztwo", "w_miejscowosc", "drugi_kierunek", "publiczna", "dziedzina_studiow",
            "zaoczne", "nie_pracuje", "forma_ksiazki", "pochodzenie_ksiazki", "dzial_ksiazki", "powod", "czym_wybor", "kiedy","nowosci_nie","netflix_nie","lubie_czytac","pandemia_wiecej_ksiazek","wiecej_czasu","za_malo_czytam","zrodlo_wiedzy","dobry_prezent","y", "komentarze","dziesiatki","przedzialy_5")
 names(data) <- names
