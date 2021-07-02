@@ -263,7 +263,7 @@ data.test <- data[i==2,]
 
 data[,24]<-as.factor(data[,24])
 ########
-model3<-randomForest(formula = przedzialy_5 ~ .,data=data.train,ntree= n,mtry=m,do.trace=10, keep.forest =T)
+model3<-randomForest(formula = przedzialy_5 ~ .,data=data.train,ntree= n,mtry=m,do.trace=10, keep.forest =T,importance=T)
 print(model3)
 
 plot(model3, main=NULL) #wykres bledu MSE
@@ -306,6 +306,10 @@ print(model1$rsq[n])
 print(model2$rsq[n])
 
 print(model3$rsq[n])
+
+#variable importance
+importance(model3, type=1)
+importance(model3, type=2)
 
 
 
