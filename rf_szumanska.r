@@ -1,22 +1,3 @@
-#praca licencjacka-Patrycja Szumanska 31.05.2021
-#Chcia³am zapytaæ o mój model i poprawnoœæ.
-#Czy sugeruje Profesor, ¿eby w pracy przedstawiæ jeden z modeli, czy te¿ wszystkie, jako ró¿ne sposoby? 
-
-# Lepiej pokazaæ ró¿ne, to jest przy okazji sprawdzenie stabilnoœci wyników.
-
-#Myœla³am, ¿e w przypadku jednego z modeli to przedstwaiæ wp³yw zmiennych parametrów(liczby drzew w modelu, mtry, podzia³ zbioru) 
-
-# Mo¿e Pani pokazaæ w szczegó³ach model najlepszy a pozosta³e modele opisaæ mniej dok³adnie w tekœcie g³ównym, odsy³aj¹c po wyniki szczegó³owe dot. tych pozosta³ych modeli np. do za³¹czników.
-
-#jaki maj¹ wp³yw na wspó³czynnik determinacji i bledy
-# Chcia³am te¿ zapytaæ czy wykres b³êdu MSE, same b³êdy MSE i RMSE s¹ wystarczaj¹ce?
-
-# Tak.
-
-
-#Dla moich danych trudno uzyskaæ mi dobre wyniki. Najlepszy dla modelu 3 jaki mi sie udalo jest dla ponizszych parametrow - 36%
-
-# OK, takie s¹ dane. Nie przeskoczymy tego.
 
 require(tidyverse)
 require(stringr)
@@ -29,20 +10,20 @@ set.seed(1100)
 n<- 1000 #ntree
 m<- 2# mtry
 #podzial zbioru
-a<-0.7#zbiór uczacy
-b<-0.3#zbiór testowy
+a<-0.7#zbiÃ³r uczacy
+b<-0.3#zbiÃ³r testowy
 
 #################################################################################
 
 # MODEL1
-#W tym modelu doda³am dane rzeczywiste(ujednolicony format- tesktowe na liczbowe zmienione)
+#W tym modelu dodaÅ‚am dane rzeczywiste(ujednolicony format- tesktowe na liczbowe zmienione w MS Excel)
 
-data <- read.csv("C:/Users/patsz/OneDrive/Pulpit/praca dyplomowa/ERKa/p2.csv")
+data <- read.csv("C:/Users/sciezka/p2.csv")
 names <- c("time","Mezczyzna", "wiek", "wojewodztwo", "w_miejscowosc", "drugi_kierunek", "publiczna", "dziedzina_studiow",
            "zaoczne", "nie_pracuje", "forma_ksiazki", "pochodzenie_ksiazki", "dzial_ksiazki", "powod", "czym_wybor", "kiedy","nowosci_nie","netflix_nie","lubie_czytac","pandemia_wiecej_ksiazek","wiecej_czasu","za_malo_czytam","zrodlo_wiedzy","dobry_prezent","y", "komentarze","dziesiatki","przedzialy_5")
 names(data) <- names
 ###############
-#import i obróbka
+#import i obrÃ³bka
 data<- data[,-26]#usuniecie komentarzy do ankiety
 data<- data[,-1]#usuniecie sygnatury czasowej
 
@@ -53,7 +34,7 @@ data<- data[,-25]#usunicie kolumn wykorzystywanych przy modelach 2 i 3
 i = sample(2, nrow(data), replace = TRUE, prob = c(a, b))
 
 
-#na binarne
+#zamiana na binarne
 data$Mezczyzna[data$Mezczyzna=="Kobieta"] <- 0 
 data$Mezczyzna[data$Mezczyzna!=0] <- 1
 data$Mezczyzna <- as.numeric(data$Mezczyzna)
@@ -102,12 +83,12 @@ model1<-randomForest(formula = y ~ .,data=data.train,ntree= n,mtry=m,do.trace=10
 print(model1)
 
 plot(model1, main=NULL)
-print("Wspólczynnik determinacji:", quote = F)
+print("WspÃ³lczynnik determinacji:", quote = F)
 print(model1$rsq[n])
 #wagi zmiennych
 wz1<- round(importance(model1),2)
 waga1<- wz1[order(wz1,decreasing = T),]
-print("wagi poszczególnych zmiennych", quote = F)
+print("wagi poszczegÃ³lnych zmiennych", quote = F)
 print(as.data.frame(waga1))
 
 
@@ -121,17 +102,17 @@ print(model1$mse[n])
 
 #######################################################################################################################################################
 
-# MODel2
-#W tym modelu podzieli³am dane na kolejne dziesi¹tki:
-#jeœli odpowiedŸ by³a 0 to przydzielono wartoœæ 0
-#jeœli odpowiedŸ by³a w przedziele 1-10 - to przydzielona wartoœæ 1
-#jeœli odpowiedŸ by³a w przedziale 11-20 - to przydzielona wartoœæ 2
-#jeœli odpowiedŸ by³a w przedziale 21-30 - to przydzielona wartoœæ 3
-#jeœli odpowiedŸ by³a w przedziale 31-40 - to przydzielona wartoœæ 4
-#jeœli odpowiedŸ by³a w przedziale 41-50 - to przydzielona wartoœæ 5
+# Model2
+#W tym modelu podzieliÅ‚am dane na kolejne dziesiÄ…tki:
+#jeÅ›li odpowiedÅº byÅ‚a 0 to przydzielono wartoÅ›Ä‡ 0
+#jeÅ›li odpowiedÅº byÅ‚a w przedziele 1-10 - to przydzielona wartoÅ›Ä‡ 1
+#jeÅ›li odpowiedÅº byÅ‚a w przedziale 11-20 - to przydzielona wartoÅ›Ä‡ 2
+#jeÅ›li odpowiedÅº byÅ‚a w przedziale 21-30 - to przydzielona wartoÅ›Ä‡ 3
+#jeÅ›li odpowiedÅº byÅ‚a w przedziale 31-40 - to przydzielona wartoÅ›Ä‡ 4
+#jeÅ›li odpowiedÅº byÅ‚a w przedziale 41-50 - to przydzielona wartoÅ›Ä‡ 5
 
 ###############
-#import i obróbka
+#import i obrÃ³bka
 data <- read.csv("C:/Users/patsz/OneDrive/Pulpit/praca dyplomowa/ERKa/p2.csv")
 names <- c("time","Mezczyzna", "wiek", "wojewodztwo", "w_miejscowosc", "drugi_kierunek", "publiczna", "dziedzina_studiow",
            "zaoczne", "nie_pracuje", "forma_ksiazki", "pochodzenie_ksiazki", "dzial_ksiazki", "powod", "czym_wybor", "kiedy","nowosci_nie","netflix_nie","lubie_czytac","pandemia_wiecej_ksiazek","wiecej_czasu","za_malo_czytam","zrodlo_wiedzy","dobry_prezent","y", "komentarze","dziesiatki","przedzialy_5")
@@ -197,12 +178,12 @@ model2<-randomForest(formula = dziesiatki ~ .,data=data.train,ntree= n,mtry=m,do
 print(model2)
 
 plot(model2, main=NULL)#wykres bledu
-print("Wspólczynnik determinacji:", quote = F)
+print("WspÃ³lczynnik determinacji:", quote = F)
 print(model2$rsq[n])
 #wagi zmiennych
 wz2<- round(importance(model2),2)
 waga2<- wz2[order(wz2,decreasing = T),]
-print("wagi poszczególnych zmiennych", quote = F)
+print("wagi poszczegÃ³lnych zmiennych", quote = F)
 print(as.data.frame(waga2))
 
 model2_p<-predict(model2, newdata=data.test)
@@ -215,15 +196,15 @@ print(model2$mse[n])
 
 ###############################################################################################################################
 # Model3 
-# W tym modelu podzieli³am dane na 5 zbiorów, stara³am siê ¿eby by³y podobnie liczne
+# W tym modelu podzieliÅ‚am dane na 5 zbiorÃ³w, staraÅ‚am siÄ™ Å¼eby byÅ‚y podobnie liczne
 #1- od 0 do 3
-#2- od 4 do 8 ksi¹¿ek
-#3- od 9 do 14 ksi¹¿ek
-#4- 15 do 20 ksi¹zek
-#5- od 21 ksi¹¿ek
+#2- od 4 do 8 ksiÄ…Å¼ek
+#3- od 9 do 14 ksiÄ…Å¼ek
+#4- 15 do 20 ksiÄ…zek
+#5- od 21 ksiÄ…Å¼ek
 
 ###############
-#import i obróbka
+#import i obrÃ³bka
 data <- read.csv("C:/Users/patsz/OneDrive/Pulpit/praca dyplomowa/ERKa/p2.csv")
 names <- c("time","Mezczyzna", "wiek", "wojewodztwo", "w_miejscowosc", "drugi_kierunek", "publiczna", "dziedzina_studiow",
            "zaoczne", "nie_pracuje", "forma_ksiazki", "pochodzenie_ksiazki", "dzial_ksiazki", "powod", "czym_wybor", "kiedy","nowosci_nie","netflix_nie","lubie_czytac","pandemia_wiecej_ksiazek","wiecej_czasu","za_malo_czytam","zrodlo_wiedzy","dobry_prezent","y", "komentarze","dziesiatki","przedzialy_5")
@@ -286,12 +267,12 @@ model3<-randomForest(formula = przedzialy_5 ~ .,data=data.train,ntree= n,mtry=m,
 print(model3)
 
 plot(model3, main=NULL) #wykres bledu MSE
-print("Wspólczynnik determinacji:", quote = F)
+print("WspÃ³lczynnik determinacji:", quote = F)
 print(model3$rsq[n])
 #wagi zmiennych
 wz3<- round(importance(model3),2)
 waga3<- wz3[order(wz3,decreasing = T),]
-print("wagi poszczególnych zmiennych", quote = F)
+print("wagi poszczegÃ³lnych zmiennych", quote = F)
 print(as.data.frame(waga3))
 
 model3_p<-predict(model3, newdata=data.test)
@@ -326,8 +307,6 @@ print(model2$rsq[n])
 
 print(model3$rsq[n])
 
-
-# Modele s¹ zasadniczo ok, ich jakoœæ nie jest powalaj¹ca, bo dane s¹ wymagaj¹ce/trudne do modelowania. 
 
 
 
